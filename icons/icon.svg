@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="gradBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+    <linearGradient id="gradTab" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f0f9ff" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect x="10" y="10" width="108" height="108" rx="26" fill="url(#gradBg)" />
+  <!-- Background Tab -->
+  <rect x="28" y="24" width="56" height="62" rx="10" fill="#93c5fd" opacity="0.75" stroke="#ffffff" stroke-width="4" />
+  <!-- Foreground Tab -->
+  <rect x="44" y="40" width="56" height="62" rx="10" fill="url(#gradTab)" stroke="#1e40af" stroke-width="4" filter="url(#shadow)" />
+  <!-- Number '1' Symbol -->
+  <path d="M 64 62 L 72 54 L 72 88 M 62 88 L 82 88" stroke="#2563eb" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+</svg>

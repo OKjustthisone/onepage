@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "OnePage - 智能防重复标签页",
+  "short_name": "OnePage",
+  "version": "1.0.0",
+  "description": "智能检测并处理重复打开的网页。支持'自动跳转已有页面'或'保留新页面关闭旧页'双模式，并允许通过扩展图标随时克隆打开重复页面。",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "tabs",
+    "storage",
+    "contextMenus"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "OnePage - 防重复标签页管理",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "duplicate-bypass": {
+      "suggested_key": {
+        "default": "Alt+Shift+D",
+        "mac": "Alt+Shift+D"
+      },
+      "description": "允许重复打开当前页面 (克隆标签)"
+    }
+  }
+}

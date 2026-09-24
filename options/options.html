@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OnePage 设置 - 智能防重复标签页</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sidebar / Navigation -->
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="../icons/icon48.png" alt="OnePage Logo" class="brand-icon">
+        <div>
+          <h2>OnePage</h2>
+          <p>防重复标签页设置</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#general" class="nav-item active">通用与去重模式</a>
+        <a href="#rules" class="nav-item">URL 匹配规则</a>
+        <a href="#whitelist" class="nav-item">免拦截白名单</a>
+        <a href="#stats" class="nav-item">去重统计数据</a>
+        <a href="#shortcuts" class="nav-item">快捷键说明</a>
+      </nav>
+      <div class="version-tag">Version 1.0.0 (MV3)</div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+      <!-- Section 1: General & Mode -->
+      <section id="general" class="card">
+        <h3 class="card-title">通用设置与处理模式</h3>
+        <p class="card-subtitle">控制扩展的运行状态以及当检测到相同 URL 时的默认响应策略</p>
+
+        <div class="form-group">
+          <label class="switch-row">
+            <div>
+              <span class="row-label">启用防重复标签页检测</span>
+              <p class="row-desc">关闭后扩展将暂停所有标签页去重操作，新开页面正常保留。</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="optEnabled" checked>
+              <span class="slider round"></span>
+            </label>
+          </label>
+        </div>
+
+        <div class="mode-selector-group">
+          <span class="group-title">去重行为模式选择</span>
+          
+          <label class="mode-card-option" for="optModeFocusOld">
+            <input type="radio" name="optMode" id="optModeFocusOld" value="focus_old">
+            <div class="card-body">
+              <div class="card-headline">
+                <span class="radio-circle"></span>
+                <strong>自动跳转到已有页面，同时关闭新打开的页面</strong>
+                <span class="pill-badge recommend">推荐</span>
+              </div>
+              <p class="card-explanation">
+                当用户点击链接或在地址栏打开一个已经打开过的网页时，浏览器会自动激活已有页面（并切到其窗口），并直接关闭刚刚新打开的重复标签页。
+                <br><em>优点：极致节省内存与标签栏空间，防止同一个网页堆积成灾。</em>
+              </p>
+            </div>
+          </label>
+
+          <label class="mode-card-option" for="optModeKeepNew">
+            <input type="radio" name="optMode" id="optModeKeepNew" value="keep_new">
+            <div class="card-body">
+              <div class="card-headline">
+                <span class="radio-circle"></span>
+                <strong>继续打开新的页面，同时后台关闭之前打开的重复页面</strong>
+                <span class="pill-badge fresh">新页优先</span>
+              </div>
+              <p class="card-explanation">
+                新标签页会继续正常加载并保持激活，而在后台自动清理关闭之前已经打开的相同旧页面。
+                <br><em>优点：适合喜欢每次获取最新页面状态、但又不希望旧标签堆积在后台的用户。</em>
+              </p>
+            </div>
+          </label>
+        </div>
+
+        <div class="form-group border-top">
+          <label class="switch-row">
+            <div>
+              <span class="row-label">跨浏览器窗口检测重复</span>
+              <p class="row-desc">开启时，无论新网页是在当前窗口还是其他 Chrome 窗口打开，只要 URL 相同均视为重复。</p>
+            </div>
+            <input type="checkbox" id="optCrossWindows" class="checkbox-input">
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="switch-row">
+            <div>
+              <span class="row-label">保护固定标签页 (Pinned Tabs)</span>
+              <p class="row-desc">在“保留新页，关闭旧页”模式下，如果旧标签页已被固定，则不会在后台强行关闭它。</p>
+            </div>
+            <input type="checkbox" id="optProtectPinned" class="checkbox-input">
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="switch-row">
+            <div>
+              <span class="row-label">图标徽标提示 (Badge)</span>
+              <p class="row-desc">去重生效时在工具栏扩展图标上短暂显示动画数字与状态反馈。</p>
+            </div>
+            <input type="checkbox" id="optShowBadge" class="checkbox-input">
+          </label>
+        </div>
+      </section>
+
+      <!-- Section 2: URL Matching Rules -->
+      <section id="rules" class="card">
+        <h3 class="card-title">URL 标准化与匹配规则</h3>
+        <p class="card-subtitle">控制如何判定两个不同的 URL 属于“相同网页”</p>
+
+        <div class="form-group">
+          <label class="switch-row">
+            <div>
+              <span class="row-label">忽略 URL 尾部斜杠 (/)</span>
+              <p class="row-desc">例如：将 <code>https://example.com/blog/</code> 与 <code>https://example.com/blog</code> 视为相同页面。</p>
+            </div>
+            <input type="checkbox" id="optIgnoreTrailingSlash" class="checkbox-input">
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="switch-row">
+            <div>
+              <span class="row-label">忽略 URL 锚点 (#anchor)</span>
+              <p class="row-desc">例如：页面内的锚点跳转 <code>https://example.com/doc#sec1</code> 与 <code>https://example.com/doc</code> 视为相同页面。</p>
+            </div>
+            <input type="checkbox" id="optIgnoreHash" class="checkbox-input">
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="switch-row">
+            <div>
+              <span class="row-label">过滤常见的推广与分析追踪参数</span>
+              <p class="row-desc">自动剔除 <code>utm_source</code>, <code>utm_medium</code>, <code>spm</code>, <code>fbclid</code>, <code>ref</code> 等参数后再进行比对。</p>
+            </div>
+            <input type="checkbox" id="optIgnoreTracking" class="checkbox-input">
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="switch-row">
+            <div>
+              <span class="row-label">忽略所有 URL 查询参数 (?query)</span>
+              <p class="row-desc"><span class="text-danger">谨慎开启：</span>开启后所有参数都会被忽略，例如 <code>page.php?id=1</code> 和 <code>page.php?id=2</code> 会被视作同一页面。</p>
+            </div>
+            <input type="checkbox" id="optIgnoreQuery" class="checkbox-input">
+          </label>
+        </div>
+      </section>
+
+      <!-- Section 3: Whitelist -->
+      <section id="whitelist" class="card">
+        <h3 class="card-title">免拦截白名单 (允许重复打开的网站)</h3>
+        <p class="card-subtitle">配置需要多开标签的网站（如在线会议、多文档对比、数据分析等），这些网站将跳过去重。</p>
+
+        <div class="whitelist-input-group">
+          <input type="text" id="whitelistInput" placeholder="输入域名，例如: localhost 或 docs.google.com" class="text-input">
+          <button id="btnAddWhitelist" class="btn-secondary">添加域名</button>
+        </div>
+
+        <div class="whitelist-container">
+          <ul id="whitelistUl" class="whitelist-list">
+            <!-- 动态渲染 -->
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 4: Stats -->
+      <section id="stats" class="card">
+        <h3 class="card-title">去重统计数据</h3>
+        <p class="card-subtitle">已为您节省的系统资源与关闭的重复页面统计</p>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-number" id="statTotal">0</span>
+            <span class="stat-desc">累计查重拦截总数</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="statNewClosed">0</span>
+            <span class="stat-desc">新开标签关闭数 (模式一)</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-number" id="statOldClosed">0</span>
+            <span class="stat-desc">旧标签清理数 (模式二)</span>
+          </div>
+        </div>
+
+        <div class="stats-actions">
+          <button id="btnResetStats" class="btn-danger-outline">重置统计数据</button>
+        </div>
+      </section>
+
+      <!-- Section 5: Shortcuts -->
+      <section id="shortcuts" class="card">
+        <h3 class="card-title">快捷键与高级技巧</h3>
+        <p class="card-subtitle">随时克隆页面与灵活操作</p>
+        <div class="shortcut-tip">
+          <div class="shortcut-item">
+            <span class="kbd">Alt + Shift + D</span>
+            <span>（Mac 亦为 <span class="kbd">Option + Shift + D</span>）：<strong>允许重复打开当前页面</strong>。直接为当前页面克隆一个新标签，本次打开不受去重机制影响。</span>
+          </div>
+          <div class="shortcut-item">
+            <span>🖱️ <strong>右键菜单</strong>：在任意网页空白处右键单击，选择 <em>“OnePage: 允许打开当前页面的重复标签”</em>，即可立即打开一份不被去重的新页面。</span>
+          </div>
+          <div class="shortcut-item">
+            <span>🧩 <strong>扩展图标</strong>：点击浏览器右上角扩展图标，点击顶部首选蓝色按钮 <em>“允许打开重复页面”</em> 即可。</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Save Toast -->
+      <div id="saveNotification" class="save-toast hidden">设置已自动保存</div>
+    </main>
+  </div>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>

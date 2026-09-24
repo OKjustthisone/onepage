@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OnePage - 智能防重复标签页</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <img src="../icons/icon32.png" alt="Logo" class="logo">
+        <div>
+          <h1 class="title">OnePage</h1>
+          <p class="subtitle">智能防重复标签页</p>
+        </div>
+      </div>
+      <div class="toggle-wrapper">
+        <label class="switch" title="启用/暂停检测">
+          <input type="checkbox" id="mainToggle" checked>
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </header>
+
+    <!-- Core Action: 允许打开重复页面 (高亮快捷按钮) -->
+    <section class="action-section">
+      <button id="btnDuplicateCurrent" class="btn-primary" title="打开一个与当前页面相同URL的标签页，本次不会被去重拦截">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <div class="btn-text-group">
+          <span class="btn-main-text">允许打开重复页面</span>
+          <span class="btn-sub-text">复制当前相同 URL 并免去重打开</span>
+        </div>
+      </button>
+      <div id="duplicateToast" class="action-toast hidden">✅ 已成功在新标签页打开！</div>
+    </section>
+
+    <!-- Mode Selection -->
+    <section class="section">
+      <div class="section-title">
+        <span>去重处理模式</span>
+        <span class="badge-status" id="modeBadge">跳转旧页</span>
+      </div>
+
+      <div class="mode-options">
+        <!-- 模式 A: 跳转旧页，关闭新页 -->
+        <label class="mode-card" for="modeFocusOld">
+          <input type="radio" name="mode" id="modeFocusOld" value="focus_old">
+          <div class="card-content">
+            <div class="card-header">
+              <div class="radio-indicator"></div>
+              <span class="card-title">跳转到已有页面</span>
+              <span class="tag-recommend">推荐</span>
+            </div>
+            <p class="card-desc">自动切回之前已打开的页面并聚焦，同时关闭新打开的重复页面，极度省内存。</p>
+          </div>
+        </label>
+
+        <!-- 模式 B: 保留新页，关闭旧页 -->
+        <label class="mode-card" for="modeKeepNew">
+          <input type="radio" name="mode" id="modeKeepNew" value="keep_new">
+          <div class="card-content">
+            <div class="card-header">
+              <div class="radio-indicator"></div>
+              <span class="card-title">保留新开页面</span>
+              <span class="tag-fresh">新页优先</span>
+            </div>
+            <p class="card-desc">继续打开新页面，在后台静默关闭之前打开的旧重复页面，查看最新内容。</p>
+          </div>
+        </label>
+      </div>
+    </section>
+
+    <!-- Current Site Whitelist -->
+    <section class="section site-section">
+      <div class="site-row">
+        <div class="site-info">
+          <span class="site-label">当前网站:</span>
+          <span id="currentDomain" class="site-domain">loading...</span>
+        </div>
+        <label class="site-switch-label" title="允许当前域名任意打开多个标签">
+          <input type="checkbox" id="siteWhitelistToggle">
+          <span class="site-toggle-text">允许重复</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Advanced Settings Toggle (Foldable) -->
+    <section class="section">
+      <details class="advanced-details">
+        <summary class="details-summary">
+          <span>高级匹配规则</span>
+          <svg class="chevron-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </summary>
+        <div class="details-content">
+          <label class="setting-row">
+            <span class="setting-label">跨窗口检测重复</span>
+            <input type="checkbox" id="checkCrossWindows">
+          </label>
+          <label class="setting-row">
+            <span class="setting-label">忽略 URL 尾部斜杠 (/)</span>
+            <input type="checkbox" id="ignoreTrailingSlash">
+          </label>
+          <label class="setting-row">
+            <span class="setting-label">忽略 URL 锚点 (#hash)</span>
+            <input type="checkbox" id="ignoreHash">
+          </label>
+          <label class="setting-row">
+            <span class="setting-label">过滤推广跟踪参数 (utm, spm)</span>
+            <input type="checkbox" id="ignoreTrackingParams">
+          </label>
+          <label class="setting-row">
+            <span class="setting-label">保护固定标签页 (不被关闭)</span>
+            <input type="checkbox" id="protectPinnedTabs">
+          </label>
+        </div>
+      </details>
+    </section>
+
+    <!-- Statistics & Footer -->
+    <footer class="footer">
+      <div class="stats-bar">
+        <span>已累计去重: <strong id="totalDuplicates">0</strong> 次</span>
+        <a href="../options/options.html" target="_blank" class="link-options" title="打开高级设置与白名单管理">
+          更多设置 &rarr;
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
