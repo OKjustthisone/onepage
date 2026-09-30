@@ -56,6 +56,14 @@ export function normalizeUrl(rawUrl, options = DEFAULT_CONFIG) {
     const hostname = url.hostname.toLowerCase();
     const port = url.port ? `:${url.port}` : '';
 
+    // SharePoint 文档的 sourcedoc GUID 是稳定身份，入口和查看器参数可能随打开方式变化。
+    const sourceDoc = Array.from(url.searchParams.entries())
+      .find(([key]) => key.toLowerCase() === 'sourcedoc')?.[1];
+    const sourceDocGuid = sourceDoc?.match(/^\{?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\}?$/i)?.[1];
+    if (sourceDocGuid) {
+      return `${protocol}//${hostname}${port}/?sourcedoc=${sourceDocGuid.toLowerCase()}`;
+    }
+
     // 路径处理 (忽略末尾斜杠)
     let pathname = url.pathname;
     if (options.ignoreTrailingSlash && pathname.length > 1 && pathname.endsWith('/')) {
